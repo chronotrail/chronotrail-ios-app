@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSCameraUsageDescription</key>
+	<string>This app needs access to camera to take photos for chat messages.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to photo library to select photos for chat messages.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>ChronoTrail uses your location to track your journey and provide location-based insights.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>ChronoTrail uses your location to track your journey and provide location-based insights even when the app is in the background.</string>
+	<key>NSMicrophoneUsageDescription</key>
+	<string>ChronoTrail needs access to your microphone to record voice notes for your entries.</string>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+		<string>background-processing</string>
+	</array>
+</dict>
+</plist>
