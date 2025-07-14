@@ -26,17 +26,13 @@ class AudioRecorder: NSObject, ObservableObject {
     
     override init() {
         super.init()
-        if !isPreview {
-            setupAudioSession()
-            requestPermission()
-        }
     }
     
     var isPreview: Bool {
         ProcessInfo.processInfo.environment["XCODE_RUNNING_FOR_PREVIEWS"] == "1"
     }
-
-    private func setupAudioSession() {
+    
+    func setupAudioSession() {
         do {
             let audioSession = AVAudioSession.sharedInstance()
             try audioSession.setCategory(.playAndRecord, mode: .default)
@@ -72,12 +68,19 @@ class AudioRecorder: NSObject, ObservableObject {
     func startRecording() {
         guard permissionGranted else {
             requestPermission()
+            if permissionGranted {
+                startRecordingImmediately()
+            }
             return
         }
-        
+    }
+    
+    func startRecordingImmediately() {
         let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0]
         let audioURL = documentsPath.appendingPathComponent("voice_note_\(UUID().uuidString).m4a")
         recordingURL = audioURL
+        
+        setupAudioSession()
         
         let settings = [
             AVFormatIDKey: Int(kAudioFormatMPEG4AAC),
