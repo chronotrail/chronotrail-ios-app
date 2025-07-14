@@ -42,17 +42,19 @@ class AudioRecorder: NSObject, ObservableObject {
         }
     }
     
-    func requestPermission() {
+    func requestPermission(completion: @escaping (Bool) -> Void) {
         if #available(iOS 17.0, *) {
             AVAudioApplication.requestRecordPermission(completionHandler: { granted in
                 DispatchQueue.main.async {
                     self.permissionGranted = granted
+                    completion(granted)
                 }
             })
         } else {
             AVAudioSession.sharedInstance().requestRecordPermission { granted in
                 DispatchQueue.main.async {
                     self.permissionGranted = granted
+                    completion(granted)
                 }
             }
         }
@@ -66,12 +68,14 @@ class AudioRecorder: NSObject, ObservableObject {
     }
     
     func startRecording() {
-        guard permissionGranted else {
-            requestPermission()
-            if permissionGranted {
-                startRecordingImmediately()
+        if permissionGranted {
+            startRecordingImmediately()
+        } else {
+            requestPermission { granted in
+                if granted {
+                    self.startRecordingImmediately()
+                }
             }
-            return
         }
     }
     

@@ -265,9 +265,12 @@ struct UploadView: View {
                     Text("Microphone permission required")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
-                    Button("Request Permission") {
-                        audioRecorder.requestPermission()
+                    Button(action: {
+                        audioRecorder.requestPermission { _ in }
+                    }) {
+                        Text(audioRecorder.permissionGranted ? "Permission Granted" : "Request Permission")
                     }
+                    .disabled(audioRecorder.permissionGranted)
                     .font(.caption)
                     .foregroundColor(.blue)
                 }
